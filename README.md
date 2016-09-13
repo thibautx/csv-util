@@ -22,8 +22,8 @@ java HRT [FILE] [OPTIONS]...
                                   "median."
 ```
 ## Examples
-# Example 1
+### Example 1
 ```
 Some code
 ```
-# Example 2
+### Example 2
