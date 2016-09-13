@@ -2,8 +2,9 @@
 
 Utility for reading CSV files and doing stuff.
 
+## Usage
 ```
-usage: java HRT [FILE] [OPTIONS]...
+java HRT [FILE] [OPTIONS]...
  -co <col_1> ... <col_n>          Columns to output to stdout. Defaults to
                                   all columns being outputted.
  -h                               Help
@@ -20,3 +21,9 @@ usage: java HRT [FILE] [OPTIONS]...
                                   Valid statistics: "max", "min", "mean",
                                   "median."
 ```
+## Examples
+# Example 1
+```
+Some code
+```
+# Example 2
