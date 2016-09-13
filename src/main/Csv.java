@@ -10,7 +10,7 @@ public class Csv {
     String file_in;
     HashMap<String, ArrayList<String>> headers = new LinkedHashMap<>();           // map column headers to index
     HashMap<String, ArrayList<String>> output_headers = new LinkedHashMap<>();    // specific output columns
-    ArrayList<ArrayList<String>> columns = new ArrayList<>();           // list of columns
+    ArrayList<ArrayList<String>> columns = new ArrayList<>();                     // list of columns
 
     /**
      *
@@ -31,9 +31,9 @@ public class Csv {
             // process the headers
             line = br.readLine();
             String[] headers = line.split(",");
-            for(int i = 0; i < headers.length; i++){
+            for(String header : headers){
                 ArrayList<String> column = new ArrayList<>();
-                this.headers.put(headers[i], column);
+                this.headers.put(header, column);
                 this.columns.add(column);
             }
 
@@ -183,40 +183,26 @@ public class Csv {
      */
     public void applyOuterJoin(String header1, String header2, String side){
         if(side.equals("full")){
-            ArrayList<String> joined_col1 = outerJoinLeft(header1, header2);
-            ArrayList<String> joined_col2 = outerJoinLeft(header2, header1);
+            ArrayList<String> joined_col1 = outerJoin(header1, header2);
+            ArrayList<String> joined_col2 = outerJoin(header2, header1);
         }else{
             ArrayList<String> joined_col = null;
             String joined_header = null;
             switch(side){
                 // A left outer join will give all rows in A, plus any common rows in B
-                case "left": joined_col = outerJoinLeft(header1, header2);
+                case "left": joined_col = outerJoin(header1, header2);
                     joined_header = header2;
                     break;
                 // A right outer join will give all rows in B, plus any common rows in A.
-                case "right": joined_col = outerJoinLeft(header2, header1);
+                case "right": joined_col = outerJoin(header2, header1);
                     joined_header = header1;
                     break;
             }
             this.headers.put(joined_header, joined_col);
         }
     }
-//    Full outer join
-//    A full outer join will give you the union of A and B, i.e. all the rows in A and all the rows in B. If something in A doesn't have a corresponding datum in B, then the B portion is null, and vice versa.
-//
-//    a   |  b
-//    -----+-----
-//    1 | null
-//    2 | null
-//    3 |    3
-//    4 |    4
-//    null |    6
-//    null |    5
-    private void outerJoinFull(String header1, String header2){
 
-    }
-
-    private ArrayList<String> outerJoinLeft(String header1, String header2){
+    private ArrayList<String> outerJoin(String header1, String header2){
         ArrayList<String> col1 = this.headers.get(header1);
         ArrayList<String> col2 = this.headers.get(header2);
         HashMap<String, Integer> col_vals = this.hashArrayList(col2);
@@ -336,6 +322,7 @@ public class Csv {
 
         ArrayList<Double> column = this.getColumnNumerical(header);
         int initial_size = column.size()/2;
+
         PriorityQueue<Double> min_heap = new PriorityQueue(initial_size, new MinHeapComparator());
         PriorityQueue<Double> max_heap = new PriorityQueue(initial_size, new MaxHeapComparator());
 

@@ -44,6 +44,23 @@ public class HRT {
             csv.columnOp(col1, col2, operator);
         }
 
+        // column joins
+        if(cmd.hasOption("j")){
+            String[] join_args = cmd.getOptionValues("j");
+            String col1 = join_args[0];
+            String col2 = join_args[1];
+            String type = join_args[2];
+            String side = "left";
+            if(cmd.hasOption("js")){
+                side = cmd.getOptionValues("js")[0];
+            }
+            if(type.equals("inner")){
+                csv.innerJoin(col1, col2);
+            }else{
+                csv.applyOuterJoin(col1, col2, side);
+            }
+        }
+
         // output file
         if(cmd.hasOption("o")){
             String file_out = cmd.getOptionValues("o")[0];
@@ -67,12 +84,16 @@ public class HRT {
         Option stat_option = OptionBuilder
                 .withArgName("statstic> <col")
                 .hasArgs(2)
-                .withDescription("Output statistics on a column. \n Valid statistics: \"max\", \"min\", \"mean\", \"median.\"")
+                .withDescription("Output statistics on a column. \n " +
+                        "Valid statistics: \"max\", \"min\", \"mean\", \"median.\"")
                 .create("s");
         Option operator_option = OptionBuilder
                 .withArgName("operator> <col_1> <col_2")
                 .hasArgs(3)
-                .withDescription("Perform operations on columns,\n e.g. “col1 + col2” or “col1 / col2” \n which will be output as a new column. \n Valid operators: '+', '-', '*', '/'.")
+                .withDescription("Perform operations on columns,\n " +
+                        "e.g. “col1 + col2” or “col1 / col2” \n " +
+                        "which will be output as a new column. \n " +
+                        "Valid operators: '+', '-', '*', '/'.")
                 .create("op");
         Option file_out_option = OptionBuilder
                 .withArgName("file")
@@ -84,14 +105,23 @@ public class HRT {
                 .hasArgs(Option.UNLIMITED_VALUES)
                 .withDescription("Columns to output to stdout. Defaults to all columns being outputted.")
                 .create("co");
+        Option join_option = OptionBuilder
+                .withArgName("col1> <col2> <type")
+                .hasArgs(3)
+                .withDescription("Perform joins on columns. \n " +
+                        "Valid types: \"inner\", \"outer\"")
+                .create("j");
+        Option outer_join_side_option = OptionBuilder
+                .withArgName("side").hasArg()
+                .withDescription("Defaults to left. \n Valid outer-join sides: \"left\", \"right\"")
+                .create("js");
         options.addOption(help_option);
         options.addOption(stat_option);
         options.addOption(operator_option);
         options.addOption(cols_out_option);
         options.addOption(file_out_option);
-//        options.addOption(cols_option);
-//        options.addOption(cols_out_option);
-
+        options.addOption(join_option);
+        options.addOption(outer_join_side_option);
         return options;
     }
 
