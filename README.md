@@ -1,5 +1,7 @@
 # csv-util
 
+Utility for reading CSV files and doing stuff.
+
 ```
 usage: java HRT [FILE] [OPTIONS]...
  -co <col_1> ... <col_n>          Columns to output to stdout. Defaults to
