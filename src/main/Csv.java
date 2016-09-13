@@ -102,11 +102,11 @@ public class Csv {
     private String getRow(int i){
         String row = "";
         for(ArrayList<String> column : this.output_headers.values()){
-//            try{
+            try{
             row += column.get(i) + COMMA_DELIMITER;
-//            } catch (IndexOutOfBoundsException e){
-//                row += " " + COMMA_DELIMITER; // after joins, columns may be mis-sized
-//            }
+            } catch (IndexOutOfBoundsException e){
+                row += null + COMMA_DELIMITER; // after joins, columns may be mis-sized
+            }
         }
         return row.substring(0, row.length()-1) + NEWLINE;  // replace extra comma w/ newline
     }
@@ -161,10 +161,9 @@ public class Csv {
      */
     public void innerJoin(String header1, String header2){
         ArrayList<String> col1 = this.headers.get(header1);
-        ArrayList<String> col2 = this.headers.get(header1);
+        ArrayList<String> col2 = this.headers.get(header2);
         ArrayList<String> intersection = new ArrayList<>();
         HashMap<String, Integer> col2_vals = this.hashArrayList(col2);
-
         for(String col1_val : col1){
             if(col2_vals.get(col1_val) != null){
                 intersection.add(col1_val);

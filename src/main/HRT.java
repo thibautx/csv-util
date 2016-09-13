@@ -70,12 +70,14 @@ public class HRT {
                 for(String col : cols_out){
                     csv.output_headers.put(col, csv.headers.get(col));
                 }
+            }else{
+                for(String col : csv.headers.keySet()){
+                    csv.output_headers.put(col, csv.headers.get(col));
+                }
             }
             csv.writeCsv(file_out);
         }
-
-
-        help(options);
+//        help(options);
     }
 
     public static Options createOptions(){
