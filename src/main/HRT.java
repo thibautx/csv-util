@@ -92,7 +92,7 @@ public class HRT {
         Option operator_option = OptionBuilder
                 .withArgName("operator> <col_1> <col_2")
                 .hasArgs(3)
-                .withDescription("Perform operations on columns,\n " +
+                .withDescription("Perform operations on columns, Column headers are ouputted as \"col1opcol2\"\n " +
                         "e.g. “col1 + col2” or “col1 / col2” \n " +
                         "which will be output as a new column. \n " +
                         "Valid operators: '+', '-', '*', '/'.")

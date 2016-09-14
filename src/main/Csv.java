@@ -151,7 +151,6 @@ public class Csv {
         ArrayList<String> columnString = this.columnDoubleToString(column);
         this.columns.add(columnString);
         this.headers.put(header, columnString);
-        this.output_headers.put(header, columnString); // all columns from column ops are outputted
     }
 
     /**
@@ -181,24 +180,19 @@ public class Csv {
      * @param side
      */
     public void applyOuterJoin(String header1, String header2, String side){
-        if(side.equals("full")){
-            ArrayList<String> joined_col1 = outerJoin(header1, header2);
-            ArrayList<String> joined_col2 = outerJoin(header2, header1);
-        }else{
-            ArrayList<String> joined_col = null;
-            String joined_header = null;
-            switch(side){
-                // A left outer join will give all rows in A, plus any common rows in B
-                case "left": joined_col = outerJoin(header1, header2);
-                    joined_header = header2;
-                    break;
-                // A right outer join will give all rows in B, plus any common rows in A.
-                case "right": joined_col = outerJoin(header2, header1);
-                    joined_header = header1;
-                    break;
-            }
-            this.headers.put(joined_header, joined_col);
+        ArrayList<String> joined_col = null;
+        String joined_header = null;
+        switch(side){
+            // A left outer join will give all rows in A, plus any common rows in B
+            case "left": joined_col = outerJoin(header1, header2);
+                joined_header = header2;
+                break;
+            // A right outer join will give all rows in B, plus any common rows in A.
+            case "right": joined_col = outerJoin(header2, header1);
+                joined_header = header1;
+                break;
         }
+        this.headers.put(joined_header, joined_col);
     }
 
     private ArrayList<String> outerJoin(String header1, String header2){
